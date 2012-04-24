@@ -3,6 +3,7 @@
 /lib
 /classes
 /native
+/.lein-plugins
 /.lein-failures
 /checkouts
 /.lein-deps-sum
