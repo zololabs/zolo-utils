@@ -1,5 +1,5 @@
 (defproject zolo-utils "1.0.0-SNAPSHOT"
-  :description "Clojure Utild"
+  :description "Clojure Utils"
 
   :dependencies [[org.clojure/clojure "1.4.0"]
 
