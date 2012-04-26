@@ -1,4 +1,4 @@
-(defproject zolo-utils "1.0.0-SNAPSHOT"
+(defproject zolodeck/zolo-utils "0.1.0-SNAPSHOT"
   :description "Clojure Utils"
 
   :dependencies [[org.clojure/clojure "1.4.0"]
@@ -32,7 +32,6 @@
 
   :warn-on-reflection false
   
-  :repositories {"jboss" "http://repository.jboss.org/nexus/content/groups/public/"
-                 "local" ~(str (.toURI (java.io.File. "../mvn_repo")))}
+  :repositories {"jboss" "http://repository.jboss.org/nexus/content/groups/public/"}
   
   :resources-path "config")
