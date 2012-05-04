@@ -29,7 +29,6 @@
 (defn update-all-map-keys [m key-updater]
   (update-map-keys m (constantly true) key-updater))
 
-
 (defn keywordize-string [s]
   (-> s
       name      
@@ -38,3 +37,9 @@
 
 (defn keywordize-map [m]
   (update-all-map-keys m keywordize-string))
+
+(defn select-keys-if [m pred]
+  (->> m
+       (filter #(pred (key %)))
+       flatten
+       (apply hash-map)))
