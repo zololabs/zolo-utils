@@ -41,5 +41,5 @@
 (defn select-keys-if [m pred]
   (->> m
        (filter #(pred (key %)))
-       flatten
+       (mapcat #(list (key %) (val %)))
        (apply hash-map)))
