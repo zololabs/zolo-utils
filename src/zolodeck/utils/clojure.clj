@@ -62,3 +62,15 @@
       [~@pos & options#]
       (let [~de-map (apply hash-map options#)]
         ~@body))))
+
+(defn select-randomly [& things]
+  (nth things (rand-int (count things))))
+
+(defn random-guid []
+  (java.util.UUID/randomUUID))
+
+(defn random-integer []
+  (rand-int 1e8))
+
+(defn parse-int [s]
+  (Integer/parseInt s))
