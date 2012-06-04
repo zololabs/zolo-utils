@@ -8,7 +8,7 @@
 (def stringify-keys walk/stringify-keys)
 
 (defn stringify-vals [a-map]
-  (transform-vals-with a-map (fn [k s] (str s))))
+  (transform-vals-with a-map (fn [k s] (if (string? s) s (str s)))))
 
 (defn stringify-map [a-map]
   (-> a-map
