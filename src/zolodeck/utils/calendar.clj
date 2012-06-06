@@ -12,3 +12,5 @@
 
 (def BEGINNING-OF-TIME-MILLIS (.getMillis BEGINNING-OF-TIME))
 
+(defn to-seconds [yyyy-MM-dd-string]
+  (/ (.getTime (date-string->instant "yyyy-MM-dd" yyyy-MM-dd-string)) 1000))
