@@ -1,4 +1,5 @@
-(ns zolodeck.utils.clojure)
+(ns zolodeck.utils.clojure
+  (:import java.io.File))
 
 (defn create-runonce [function] 
   (let [sentinel (Object.)
@@ -74,3 +75,34 @@
 
 (defn parse-int [s]
   (Integer/parseInt s))
+
+(defn clj?
+  "Returns true if file is a normal file with a .clj extension."
+  [^File file]
+  (and (.isFile file)
+       (.endsWith (.getName file) ".clj")))
+
+(defn file ^File [path] (if (string? path) (File. ^String path) path))
+
+(defn path->ns [^String path]
+  (-> path
+    (.replaceAll "/" "\\.")
+    (.replaceAll "_" "-")
+    (.replaceAll ".clj$" "")))
+
+(defn find-clj-files-in-dir
+  [^String dir]
+  ;; Use sort by absolute path to get breadth-first search.
+  (map #(.getPath ^File %1)
+    (sort-by #(.getAbsolutePath ^File %)
+      (filter clj? (file-seq (file dir))))))
+
+(defn find-ns-in-dir
+  "Searches dir recursively for (ns ...) declarations in Clojure
+  source files; returns the symbol names of the declared namespaces."
+  [^String dir]
+  (let [skip (inc (count dir))]
+    (map symbol
+      (map path->ns
+        (map #(subs %1 skip)
+          (find-clj-files-in-dir dir))))))
