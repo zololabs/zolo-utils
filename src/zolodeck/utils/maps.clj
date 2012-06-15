@@ -38,8 +38,8 @@
 (defn keywordize-map [m]
   (update-all-map-keys m keywordize-string))
 
-(defn select-keys-if [m pred]
+(defn select-keys-if [m k-v-pred]
   (->> m
-       (filter #(pred (key %)))
+       (filter #(k-v-pred (key %) (val %)))
        (mapcat #(list (key %) (val %)))
        (apply hash-map)))

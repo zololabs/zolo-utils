@@ -1,4 +1,5 @@
-(ns zolodeck.utils.clojure)
+(ns zolodeck.utils.clojure
+  (:use clojure.set))
 
 (defn create-runonce [function] 
   (let [sentinel (Object.)
@@ -74,3 +75,15 @@
 
 (defn parse-int [s]
   (Integer/parseInt s))
+
+(defn diff [old-seq new-seq id-fn]
+  (let [old-ids (set (map id-fn old-seq))
+        new-ids (set (map id-fn new-seq))
+        added-ids (difference new-ids old-ids)
+        deleted-ids (difference old-ids new-ids)
+        updated-ids (intersection new-ids old-ids)
+        old-grouped (group-by id-fn old-seq)
+        new-grouped (group-by id-fn new-seq)]
+    {:added (map new-grouped added-ids)
+     :deleted (map old-grouped deleted-ids)
+     :updated (map new-grouped updated-ids)}))
