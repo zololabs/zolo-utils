@@ -5,6 +5,10 @@
   (apply println (cons "*** " (map #(if (string? %) % (with-out-str (pprint %)))  args)))
   (last args))
 
+(defn print-vals-> [obj msg]
+  (print-vals msg obj)
+  obj)
+
 (defn scaffold
   "Print the ancestor method signatures of a given interface."
   [iface]

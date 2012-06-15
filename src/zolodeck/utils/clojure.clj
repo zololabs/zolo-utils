@@ -82,12 +82,12 @@
         new-ids (set (map id-fn new-seq))
         added-ids (difference new-ids old-ids)
         deleted-ids (difference old-ids new-ids)
-        updated-ids (intersection new-ids old-ids)
+        remaining-ids (intersection new-ids old-ids)
         old-grouped (group-by id-fn old-seq)
         new-grouped (group-by id-fn new-seq)]
-    {:added (map new-grouped added-ids)
-     :deleted (map old-grouped deleted-ids)
-     :updated (map new-grouped updated-ids)}))
+    {:added (mapcat new-grouped added-ids)
+     :deleted (mapcat old-grouped deleted-ids)
+     :remaining (mapcat new-grouped remaining-ids)}))
 
 (defn clj?
   "Returns true if file is a normal file with a .clj extension."
