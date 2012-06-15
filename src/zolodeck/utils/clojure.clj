@@ -1,9 +1,6 @@
 (ns zolodeck.utils.clojure
-<<<<<<< HEAD
-  (:use clojure.set))
-=======
+  (:use clojure.set)
   (:import java.io.File))
->>>>>>> e230d0edb681ee7393e789a19d776f59eaa83714
 
 (defn create-runonce [function] 
   (let [sentinel (Object.)
