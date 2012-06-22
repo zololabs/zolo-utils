@@ -14,3 +14,9 @@
 
 (defn to-seconds [yyyy-MM-dd-string]
   (/ (.getTime (date-string->instant "yyyy-MM-dd" yyyy-MM-dd-string)) 1000))
+
+(defn now []
+  (System/currentTimeMillis))
+
+(defn now-instant []
+  (millis->instant (now)))
