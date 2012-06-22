@@ -118,5 +118,16 @@
     (map symbol
       (map path->ns
         (map #(subs %1 skip)
-          (find-clj-files-in-dir dir))))))
+             (find-clj-files-in-dir dir))))))
+
+
+(defn uuid? [a]
+  (instance? java.util.UUID a))
+
+(defn date? [a]
+  (instance? java.util.Date a))
+
+(defn collection? [a]
+  (instance? java.util.Collection a))
+
 
