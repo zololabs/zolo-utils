@@ -32,9 +32,10 @@
   (-> (now) to-date-time year))
 
 (defn parse-birthday [date-string]
-  (let [d (fuzzy-parse date-string)
-        dt (to-date-time d)]
-    (if dt
-      (if (= (year dt) (this-year))
-        (.toDate (date-time 1900 (month dt) (day dt)))
-        d))))
+  (if date-string
+    (let [d (fuzzy-parse date-string)
+          dt (to-date-time d)]
+      (if dt
+        (if (= (year dt) (this-year))
+          (.toDate (date-time 1900 (month dt) (day dt)))
+          d)))))
