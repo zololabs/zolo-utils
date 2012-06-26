@@ -3,9 +3,9 @@
   (:require [clojure.walk :as walk]))
 
 (defn transform-vals-with [a-map transform-fn]
-  (apply merge (map (fn [[k v]] {k (transform-fn k v)}) a-map)))
+  (apply merge (map (fn [[k v]] {k (transform-fn k v)}) a-map))
 
-(def stringify-keys walk/stringify-keys)
+  (def stringify-keys walk/stringify-keys))
 
 (defn stringify-vals [a-map]
   (transform-vals-with a-map (fn [k s] (if (string? s) s (str s)))))
@@ -14,6 +14,9 @@
   (-> a-map
       walk/stringify-keys
       stringify-vals))
+
+(defn remove-nil-vals [a-map]
+  (apply hash-map (mapcat (fn [[_ v :as kv]] (if v kv)) a-map)))
 
 (defn- kv-updater-for-key [key-tester key-updater [k v]]
   (if-let [new-key (key-updater k)]
