@@ -14,6 +14,12 @@
 
 (def BEGINNING-OF-TIME-MILLIS (.getMillis BEGINNING-OF-TIME))
 
+(defn now []
+  (System/currentTimeMillis))
+
+(defn now-instant []
+  (millis->instant (now)))
+
 (defn to-seconds [yyyy-MM-dd-string]
   (/ (.getTime (date-string->instant "yyyy-MM-dd" yyyy-MM-dd-string)) 1000))
 
@@ -23,7 +29,7 @@
       (first (.getDates (first groups))))))
 
 (defn this-year []
-  (year (to-date-time (System/currentTimeMillis))))
+  (-> (now) to-date-time year))
 
 (defn parse-birthday [date-string]
   (let [d (fuzzy-parse date-string)

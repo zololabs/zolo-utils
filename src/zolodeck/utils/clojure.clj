@@ -1,9 +1,6 @@
 (ns zolodeck.utils.clojure
-<<<<<<< HEAD
-  (:use clojure.set))
-=======
+  (:use clojure.set)
   (:import java.io.File))
->>>>>>> e230d0edb681ee7393e789a19d776f59eaa83714
 
 (defn create-runonce [function] 
   (let [sentinel (Object.)
@@ -85,12 +82,12 @@
         new-ids (set (map id-fn new-seq))
         added-ids (difference new-ids old-ids)
         deleted-ids (difference old-ids new-ids)
-        updated-ids (intersection new-ids old-ids)
+        remaining-ids (intersection new-ids old-ids)
         old-grouped (group-by id-fn old-seq)
         new-grouped (group-by id-fn new-seq)]
-    {:added (map new-grouped added-ids)
-     :deleted (map old-grouped deleted-ids)
-     :updated (map new-grouped updated-ids)}))
+    {:added (mapcat new-grouped added-ids)
+     :deleted (mapcat old-grouped deleted-ids)
+     :remaining (mapcat new-grouped remaining-ids)}))
 
 (defn clj?
   "Returns true if file is a normal file with a .clj extension."
@@ -121,5 +118,16 @@
     (map symbol
       (map path->ns
         (map #(subs %1 skip)
-          (find-clj-files-in-dir dir))))))
+             (find-clj-files-in-dir dir))))))
+
+
+(defn uuid? [a]
+  (instance? java.util.UUID a))
+
+(defn date? [a]
+  (instance? java.util.Date a))
+
+(defn collection? [a]
+  (instance? java.util.Collection a))
+
 
