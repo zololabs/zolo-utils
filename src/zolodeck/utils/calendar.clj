@@ -2,7 +2,12 @@
   (:use [clj-time.format :only (parse unparse formatters formatter)]
         [clj-time.core :only (date-time year month day)]
         [clj-time.coerce :only (to-date-time)])
-  (:import com.joestelmach.natty.Parser))
+  (:import com.joestelmach.natty.Parser
+           java.util.TimeZone
+           java.util.Locale))
+
+(Locale/setDefault Locale/US)
+(TimeZone/setDefault (TimeZone/getTimeZone "GMT"))
 
 (defn date-string->instant [format date-string]
   (.toDate (parse (or (formatters format) (formatter format)) date-string)))
