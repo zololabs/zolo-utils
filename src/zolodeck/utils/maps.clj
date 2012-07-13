@@ -15,6 +15,9 @@
       walk/stringify-keys
       stringify-vals))
 
+(defn remove-nil-vals [a-map]
+  (apply hash-map (mapcat (fn [[_ v :as kv]] (if v kv)) a-map)))
+
 (defn- kv-updater-for-key [key-tester key-updater [k v]]
   (if-let [new-key (key-updater k)]
     (if (key-tester k)
