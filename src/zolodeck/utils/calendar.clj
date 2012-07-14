@@ -4,10 +4,14 @@
         [clj-time.coerce :only (to-date-time)])
   (:import com.joestelmach.natty.Parser
            java.util.TimeZone
-           java.util.Locale))
+           java.util.Locale
+           java.util.Date
+           java.text.SimpleDateFormat))
 
 (Locale/setDefault Locale/US)
 (TimeZone/setDefault (TimeZone/getTimeZone "GMT"))
+
+(def yyyy-MM-dd-HH-mm "yyyy-MM-dd HH:mm")
 
 (defn date-string->instant [format date-string]
   (.toDate (parse (or (formatters format) (formatter format)) date-string)))
@@ -44,3 +48,22 @@
         (if (= (year dt) (this-year))
           (.toDate (date-time 1900 (month dt) (day dt)))
           d)))))
+
+(defn simple-date-format
+  ([format-string]
+     (simple-date-format format-string "UTC"))
+  ([format-string tz-string]
+     (doto ^SimpleDateFormat (SimpleDateFormat. format-string)
+           (.setTimeZone (TimeZone/getTimeZone tz-string)))))
+
+(defn utc-datetime-format
+ "Return a 'yyyy-MM-dd HH:mm' date format enforcing UTC semantics. Not thread safe!"
+ ^SimpleDateFormat []
+ (simple-date-format yyyy-MM-dd-HH-mm))
+
+(defn date-to-string
+  "Converts date to yyyy-MM-dd format"
+  ([^Date d]
+     (date-to-string d (utc-datetime-format)))
+  ([^Date d ^SimpleDateFormat formatter]
+     (if d (.format formatter d))))
