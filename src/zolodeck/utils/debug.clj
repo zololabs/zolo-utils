@@ -9,6 +9,12 @@
   (print-vals msg obj)
   obj)
 
+(defmacro try-catch [& body]
+  `(try
+     (do ~@body)
+     (catch Exception ~'e
+       (print-vals "EXCEPTION:" ~'e))))
+
 (defn scaffold
   "Print the ancestor method signatures of a given interface."
   [iface]
