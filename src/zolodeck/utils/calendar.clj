@@ -14,7 +14,8 @@
 (def yyyy-MM-dd-HH-mm "yyyy-MM-dd HH:mm")
 
 (defn date-string->instant [format date-string]
-  (.toDate (parse (or (formatters format) (formatter format)) date-string)))
+  (when date-string
+    (.toDate (parse (or (formatters format) (formatter format)) date-string))))
 
 (defn millis->instant [millis]
   (java.sql.Timestamp. millis))
