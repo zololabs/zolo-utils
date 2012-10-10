@@ -3,7 +3,9 @@
 
   :dependencies [[org.clojure/clojure "1.4.0"]
 
-                 [org.clojure/data.json "0.1.2"  :exclude [org.clojure/clojure]]
+                 [ring "1.0.2"]
+
+                 [org.clojure/data.json "0.1.2"]
                  [clj-http "0.3.6"]
                  [clj-oauth2 "0.2.0"]
 
@@ -12,6 +14,14 @@
                  [com.joestelmach/natty "0.6-SNAPSHOT"]
                  
                  [slingshot "0.10.2"]]
+
+  :exclusions [org.clojure/clojure
+               org.slf4j/slf4j-log4j12
+               org.slf4j/slf4j-api
+               org.slf4j/slf4j-nop
+               log4j/log4j
+               commons-logging/commons-logging
+               org.clojure/tools.logging]
 
   :plugins [[lein-swank "1.4.4"]
             [lein-pprint "1.1.1"]
