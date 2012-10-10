@@ -37,3 +37,8 @@
                      {}
                      (clj-string/split param-string #"&"))]
     (walk/keywordize-keys stringified)))
+
+(defn to-string [e]
+  (if (keyword? e)
+    (name e)
+    (str e)))
