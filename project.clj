@@ -10,7 +10,7 @@
                  [clj-oauth2 "0.2.0"]
 
                  [joda-time "1.6"]
-                 [clj-time "0.3.7"]
+                 [clj-time "0.4.4"]
                  [com.joestelmach/natty "0.6-SNAPSHOT"]
                  
                  [slingshot "0.10.2"]]
