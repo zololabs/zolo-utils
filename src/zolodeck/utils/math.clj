@@ -1,6 +1,7 @@
 (ns zolodeck.utils.math)
 
 (defn average [numbers]
-  (int
-   (/ (apply + numbers)
-      (count numbers))))
+  (if-not (empty? numbers)
+    (int
+     (/ (apply + numbers)
+        (count numbers)))))
