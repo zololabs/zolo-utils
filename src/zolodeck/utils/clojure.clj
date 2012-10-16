@@ -120,7 +120,6 @@
         (map #(subs %1 skip)
              (find-clj-files-in-dir dir))))))
 
-
 (defn uuid? [a]
   (instance? java.util.UUID a))
 
@@ -130,4 +129,6 @@
 (defn collection? [a]
   (instance? java.util.Collection a))
 
-
+(defn reverse-sort-by [key-fn coll]
+  (-> (sort-by key-fn coll)
+      reverse))
