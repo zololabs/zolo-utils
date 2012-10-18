@@ -132,3 +132,7 @@
 (defn reverse-sort-by [key-fn coll]
   (-> (sort-by key-fn coll)
       reverse))
+
+(defn doeach [function coll]
+  (doseq [c coll]
+    (function c)))
