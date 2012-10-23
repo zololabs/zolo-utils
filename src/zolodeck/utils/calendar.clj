@@ -6,7 +6,10 @@
            java.util.TimeZone
            java.util.Locale
            java.util.Date
-           java.text.SimpleDateFormat))
+           java.text.SimpleDateFormat
+           org.joda.time.format.DateTimeFormatterBuilder
+           org.joda.time.Weeks)
+  (:require [clj-time.core :as time]))
 
 (Locale/setDefault Locale/US)
 (TimeZone/setDefault (TimeZone/getTimeZone "GMT"))
@@ -57,6 +60,18 @@
      (doto ^SimpleDateFormat (SimpleDateFormat. format-string)
            (.setTimeZone (TimeZone/getTimeZone tz-string)))))
 
+(def NICE-DATE-FORMATTER 
+  (-> (DateTimeFormatterBuilder.)
+      (.appendDayOfMonth 2)
+      ( .appendLiteral " ")
+      .appendMonthOfYearShortText
+      ( .appendLiteral ", ")
+      (.appendYear 4 4) 
+      .toFormatter))
+
+(defn joda-dt-to-nice-string [dt]
+  (unparse NICE-DATE-FORMATTER dt))
+
 (defn utc-datetime-format
  "Return a 'yyyy-MM-dd HH:mm' date format enforcing UTC semantics. Not thread safe!"
  ^SimpleDateFormat []
@@ -68,3 +83,27 @@
      (date-to-string d (utc-datetime-format)))
   ([^Date d ^SimpleDateFormat formatter]
      (if d (.format formatter d))))
+
+(defn year-from-instant [instant]
+  (.getYear (to-date-time instant)))
+
+(defn month-from-instant [instant]
+  (.getMonthOfYear (to-date-time instant)))
+
+(defn week-from-instant [instant]
+  (.getWeekOfWeekyear (to-date-time instant)))
+
+(defn get-year-month-week [instant]
+  (let [dt (to-date-time instant)]
+    [(.getYear dt) (.getMonthOfYear dt) (.getWeekOfWeekyear dt)]))
+
+(defn weeks-since
+  ([]
+     (weeks-since (time/now)))
+  ([ts]
+     (let [ts (to-date-time ts)
+           n (time/now)]
+       (.getDays (.daysBetween ts n)))))
+
+(defn weeks-between [dt1 dt2]
+  (.getWeeks (Weeks/weeksBetween (to-date-time dt1) (to-date-time dt2))))
