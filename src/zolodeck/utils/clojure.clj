@@ -137,6 +137,9 @@
   (doseq [c coll]
     (function c)))
 
+(defn domap [function coll]
+  (doall (map function coll)))
+
 (defn distinct-by [func coll]
   (let [f #(= (func %1) (func %2))
         step (fn step [xs seen]
