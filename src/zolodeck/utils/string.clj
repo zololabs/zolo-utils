@@ -4,6 +4,11 @@
             [clojure.walk :as walk])
   (:import [java.util.regex Pattern]))
 
+(defn quoted [s]
+  (str "'" s "'"))
+
+(def q quoted)
+
 (defn split [re s]
   ;; In clj 1.4 this is not working 
   ;; (clojure.string/split #" " auth-token)

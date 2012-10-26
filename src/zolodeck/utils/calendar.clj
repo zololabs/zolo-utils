@@ -23,6 +23,15 @@
 (defn millis->instant [millis]
   (java.sql.Timestamp. millis))
 
+(defn seconds->instant [seconds]
+  (java.sql.Timestamp. (* 1000 seconds)))
+
+(defn millis-string->instant [millis-string]
+  (millis->instant (Long/parseLong millis-string)))
+
+(defn seconds-string->instant [seconds-string]
+  (seconds->instant (Long/parseLong seconds-string)))
+
 (def BEGINNING-OF-TIME (date-time 1971 1 1))
 
 (def BEGINNING-OF-TIME-MILLIS (.getMillis BEGINNING-OF-TIME))
