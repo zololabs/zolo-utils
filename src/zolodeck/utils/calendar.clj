@@ -81,6 +81,9 @@
 (defn joda-dt-to-nice-string [dt]
   (unparse NICE-DATE-FORMATTER dt))
 
+(defn date-to-nice-string [dt]
+  (joda-dt-to-nice-string (to-date-time dt)))
+
 (defn utc-datetime-format
  "Return a 'yyyy-MM-dd HH:mm' date format enforcing UTC semantics. Not thread safe!"
  ^SimpleDateFormat []

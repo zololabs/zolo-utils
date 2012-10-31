@@ -1,12 +1,12 @@
 (ns zolodeck.utils.debug
   (:use clojure.pprint))
 
-(defn snip-string [s]
+(defn- snip-string [s]
   (-> s
       (.substring 1 (dec (dec (.length s))))
       (str "\n")))
 
-(defn snipped-pretty-string [& things]
+(defn pp-str [& things]
   (let [s (with-out-str (pprint things))]
     (snip-string s)))
 
