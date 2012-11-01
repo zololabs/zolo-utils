@@ -49,3 +49,6 @@
        (filter #(k-v-pred (key %) (val %)))
        (mapcat #(list (key %) (val %)))
        (apply hash-map)))
+
+(defn update-val [m k updater-fn]
+  (assoc m k (updater-fn m k (m k))))
