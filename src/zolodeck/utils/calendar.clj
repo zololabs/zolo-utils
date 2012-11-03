@@ -11,7 +11,11 @@
 (Locale/setDefault Locale/US)
 (TimeZone/setDefault (TimeZone/getTimeZone "GMT"))
 
+(declare simple-date-format)
+
 (def yyyy-MM-dd-HH-mm "yyyy-MM-dd HH:mm")
+
+(def yyyy-MM-dd-format (simple-date-format "yyyy-MM-dd"))
 
 (defn date-string->instant [format date-string]
   (when date-string
@@ -68,3 +72,7 @@
      (date-to-string d (utc-datetime-format)))
   ([^Date d ^SimpleDateFormat formatter]
      (if d (.format formatter d))))
+
+(defn date-to-simple-string [d]
+  (if d
+    (date-to-string d yyyy-MM-dd-format)))
