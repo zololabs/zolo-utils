@@ -6,7 +6,10 @@
            java.util.TimeZone
            java.util.Locale
            java.util.Date
-           java.text.SimpleDateFormat))
+           java.text.SimpleDateFormat
+           org.joda.time.format.DateTimeFormatterBuilder
+           org.joda.time.Weeks)
+  (:require [clj-time.core :as time]))
 
 (Locale/setDefault Locale/US)
 (TimeZone/setDefault (TimeZone/getTimeZone "GMT"))
@@ -23,6 +26,15 @@
 
 (defn millis->instant [millis]
   (java.sql.Timestamp. millis))
+
+(defn seconds->instant [seconds]
+  (java.sql.Timestamp. (* 1000 seconds)))
+
+(defn millis-string->instant [millis-string]
+  (millis->instant (Long/parseLong millis-string)))
+
+(defn seconds-string->instant [seconds-string]
+  (seconds->instant (Long/parseLong seconds-string)))
 
 (def BEGINNING-OF-TIME (date-time 1971 1 1))
 
@@ -61,6 +73,21 @@
      (doto ^SimpleDateFormat (SimpleDateFormat. format-string)
            (.setTimeZone (TimeZone/getTimeZone tz-string)))))
 
+(def NICE-DATE-FORMATTER 
+  (-> (DateTimeFormatterBuilder.)
+      (.appendDayOfMonth 2)
+      ( .appendLiteral " ")
+      .appendMonthOfYearShortText
+      ( .appendLiteral ", ")
+      (.appendYear 4 4) 
+      .toFormatter))
+
+(defn joda-dt-to-nice-string [dt]
+  (unparse NICE-DATE-FORMATTER dt))
+
+(defn date-to-nice-string [dt]
+  (joda-dt-to-nice-string (to-date-time dt)))
+
 (defn utc-datetime-format
  "Return a 'yyyy-MM-dd HH:mm' date format enforcing UTC semantics. Not thread safe!"
  ^SimpleDateFormat []
@@ -73,6 +100,32 @@
   ([^Date d ^SimpleDateFormat formatter]
      (if d (.format formatter d))))
 
+
 (defn date-to-simple-string [d]
   (if d
     (date-to-string d yyyy-MM-dd-format)))
+
+(defn year-from-instant [instant]
+  (.getYear (to-date-time instant)))
+
+(defn month-from-instant [instant]
+  (.getMonthOfYear (to-date-time instant)))
+
+(defn week-from-instant [instant]
+  (.getWeekOfWeekyear (to-date-time instant)))
+
+(defn get-year-month-week [instant]
+  (let [dt (to-date-time instant)]
+    [(.getYear dt) (.getMonthOfYear dt) (.getWeekOfWeekyear dt)]))
+
+(defn weeks-since
+  ([]
+     (weeks-since (time/now)))
+  ([ts]
+     (let [ts (to-date-time ts)
+           n (time/now)]
+       (.getDays (.daysBetween ts n)))))
+
+(defn weeks-between [dt1 dt2]
+  (.getWeeks (Weeks/weeksBetween (to-date-time dt1) (to-date-time dt2))))
+

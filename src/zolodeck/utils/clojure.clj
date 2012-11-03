@@ -132,3 +132,22 @@
 (defn reverse-sort-by [key-fn coll]
   (-> (sort-by key-fn coll)
       reverse))
+
+(defn doeach [function coll]
+  (doseq [c coll]
+    (function c)))
+
+(defn domap [function coll]
+  (doall (map function coll)))
+
+(defn distinct-by [func coll]
+  (let [f #(= (func %1) (func %2))
+        step (fn step [xs seen]
+               (lazy-seq
+                ((fn [[x :as xs] seen]
+                   (when-let [s (seq xs)]
+                     (if (some #(f x %) seen)
+                       (recur (rest s) seen)
+                       (cons x (step (rest s) (conj seen x))))))
+                 xs seen)))]
+    (step coll #{})))

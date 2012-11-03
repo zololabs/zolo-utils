@@ -5,6 +5,9 @@
 (defn transform-vals-with [a-map transform-fn]
   (apply merge (map (fn [[k v]] {k (transform-fn k v)}) a-map)))
 
+(defn transform-key-vals-with [a-map key-transform val-transform]  
+  (apply hash-map (mapcat (fn [[k v]] [(key-transform k) (val-transform v)]) a-map)))
+
 (def stringify-keys walk/stringify-keys)
 
 (defn stringify-vals [a-map]
@@ -46,3 +49,6 @@
        (filter #(k-v-pred (key %) (val %)))
        (mapcat #(list (key %) (val %)))
        (apply hash-map)))
+
+(defn update-val [m k updater-fn]
+  (assoc m k (updater-fn m k (m k))))

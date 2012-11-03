@@ -1,6 +1,15 @@
 (ns zolodeck.utils.debug
   (:use clojure.pprint))
 
+(defn- snip-string [s]
+  (-> s
+      (.substring 1 (dec (dec (.length s))))
+      (str "\n")))
+
+(defn pp-str [& things]
+  (let [s (with-out-str (pprint things))]
+    (snip-string s)))
+
 (defn print-vals [& args]
   (apply println (cons "*** " (map #(if (string? %) % (with-out-str (pprint %)))  args)))
   (last args))
