@@ -52,3 +52,13 @@
 
 (defn update-val [m k updater-fn]
   (assoc m k (updater-fn m k (m k))))
+
+(defn group-first-by [attrib objects]
+  (-> (group-by attrib objects)
+      (transform-vals-with (fn [_ v] (first v)))))
+
+(defn partition-into [n m]
+  (->> m
+       (partition-all n)
+       (map #(apply concat %))
+       (map #(apply hash-map %))))
