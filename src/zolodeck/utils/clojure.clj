@@ -151,3 +151,9 @@
                        (cons x (step (rest s) (conj seen x))))))
                  xs seen)))]
     (step coll #{})))
+
+(defn pmapcat [f batches]
+  (->> batches
+       (pmap f)
+       (apply concat)
+       doall))
