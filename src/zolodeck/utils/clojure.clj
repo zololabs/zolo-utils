@@ -1,5 +1,6 @@
 (ns zolodeck.utils.clojure
-  (:use clojure.set)
+  (:use zolodeck.utils.debug
+        clojure.set)
   (:import java.io.File))
 
 (defn create-runonce [function] 
@@ -157,3 +158,17 @@
        (pmap f)
        (apply concat)
        doall))
+
+(defn pdoeach
+  ([f n coll]
+     (let [size (count coll)
+           indices (range 1 (inc size))
+           m (zipmap indices coll)
+           batches (partition-all n indices)
+           item-processor #(do
+                             (print-vals (str "pdoeach: [" (.getName (Thread/currentThread)) "] " % " of " size))
+                             (f (m %)))
+           batch-processor #(domap item-processor %)]
+       (pmapcat batch-processor batches)))
+  ([f coll]
+     (pdoeach f 1 coll)))

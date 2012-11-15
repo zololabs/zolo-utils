@@ -1,5 +1,6 @@
 (ns zolodeck.utils.calendar
-  (:use [clj-time.format :only (parse unparse formatters formatter)]
+  (:use zolodeck.utils.debug
+        [clj-time.format :only (parse unparse formatters formatter)]
         [clj-time.core :only (date-time year month day)]
         [clj-time.coerce :only (to-date-time)])
   (:import com.joestelmach.natty.Parser
@@ -26,6 +27,9 @@
 (defn seconds->instant [seconds]
   (java.sql.Timestamp. (* 1000 seconds)))
 
+(defn seconds->joda-time [seconds]
+  (-> seconds seconds->instant to-date-time))
+
 (defn millis-string->instant [millis-string]
   (millis->instant (Long/parseLong millis-string)))
 
@@ -42,8 +46,11 @@
 (defn now-instant []
   (millis->instant (now)))
 
-(defn to-seconds [yyyy-MM-dd-string]
-  (/ (.getTime (date-string->instant "yyyy-MM-dd" yyyy-MM-dd-string)) 1000))
+(defn to-seconds [string-or-millis]
+  (condp = (class string-or-millis)
+    java.lang.Long (int (/ string-or-millis 1000))
+    java.lang.String (/ (.getTime (date-string->instant "yyyy-MM-dd" string-or-millis)) 1000)
+    :else (throw (RuntimeException. (str string-or-millis " is not either a String or a Long")))))
 
 (defn fuzzy-parse [date-string]
   (let [groups (.parse (Parser.) date-string)]
