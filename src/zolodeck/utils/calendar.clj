@@ -46,6 +46,9 @@
 (defn now-instant []
   (millis->instant (now)))
 
+(defn now-joda []
+  (to-date-time (now)))
+
 (defn to-seconds [string-or-millis]
   (condp = (class string-or-millis)
     java.lang.Long (int (/ string-or-millis 1000))
