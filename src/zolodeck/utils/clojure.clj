@@ -153,6 +153,8 @@
                  xs seen)))]
     (step coll #{})))
 
+(def domapcat (comp doall mapcat))
+
 (defn pmapcat [f batches]
   (->> batches
        (pmap f)
