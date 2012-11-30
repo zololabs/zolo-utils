@@ -9,7 +9,7 @@
            java.util.Date
            java.text.SimpleDateFormat
            org.joda.time.format.DateTimeFormatterBuilder
-           org.joda.time.Weeks)
+           [org.joda.time LocalDate Weeks])
   (:require [clj-time.core :as time]))
 
 (Locale/setDefault Locale/US)
@@ -134,3 +134,46 @@
 (defn weeks-between [dt1 dt2]
   (.getWeeks (Weeks/weeksBetween (to-date-time dt1) (to-date-time dt2))))
 
+(defn start-of-day-inst [inst]
+  (->> inst
+       to-date-time
+       .toLocalDate
+       .toDateTimeAtStartOfDay
+       .toDate))
+
+(defn start-of-day-dt [inst]
+  (-> inst
+      to-date-time
+      .toLocalDate
+      .toDateTimeAtStartOfDay))
+
+(defn today-dt []
+  (.toDateTimeAtStartOfDay (LocalDate.)))
+
+(defn- inc-date [dt]
+  (.plusDays dt 1))
+
+(defn- dec-date [dt]
+  (.minusDays dt 1))
+
+(defn- date-stream [start-dt next-fn]
+  (->> start-dt
+       (iterate next-fn)
+       (map #(.toDate %))))
+
+(defn inc-date-stream [start-dt]
+  (date-stream (start-of-day-dt start-dt) inc-date))
+
+(defn dec-date-stream [start-dt]
+  (date-stream (start-of-day-dt start-dt) dec-date))
+
+(defn all-dates-between [start-inst end-inst]
+  (let [end-start-of-day (start-of-day-inst end-inst)]
+    (->> start-inst
+         to-date-time
+         inc-date-stream
+         (take-while #(not= end-start-of-day %))
+         (concat [end-start-of-day]))))
+
+(defn all-dates-through-today [start-inst]
+  (all-dates-between start-inst (today-dt)))
