@@ -1,5 +1,6 @@
 (ns zolodeck.utils.calendar
   (:use zolodeck.utils.debug
+        zolodeck.utils.clojure
         [clj-time.format :only (parse unparse formatters formatter)]
         [clj-time.core :only (date-time year month day)]
         [clj-time.coerce :only (to-date-time)])
@@ -173,7 +174,7 @@
          to-date-time
          inc-date-stream
          (take-while #(not= end-start-of-day %))
-         (concat [end-start-of-day]))))
+         (conj-at-end end-start-of-day))))
 
 (defn all-dates-through-today [start-inst]
   (all-dates-between start-inst (today-dt)))
