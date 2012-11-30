@@ -134,6 +134,9 @@
   (-> (sort-by key-fn coll)
       reverse))
 
+(defn conj-at-end [x coll]
+  (concat coll [x]))
+
 (defn doeach [function coll]
   (doseq [c coll]
     (function c)))
