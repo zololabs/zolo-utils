@@ -162,15 +162,18 @@
        doall))
 
 (defn pdoeach
-  ([f n coll]
+  ([f n verbose? coll]
      (let [size (count coll)
            indices (range 1 (inc size))
            m (zipmap indices coll)
            batches (partition-all n indices)
            item-processor #(do
-                             (print-vals (str "pdoeach: [" (.getName (Thread/currentThread)) "] " % " of " size))
+                             (if verbose?
+                               (print-vals (str "pdoeach: [" (.getName (Thread/currentThread)) "] " % " of " size)))
                              (f (m %)))
            batch-processor #(domap item-processor %)]
        (pmapcat batch-processor batches)))
+  ([f n coll]
+     (pdoeach f n false coll))
   ([f coll]
      (pdoeach f 1 coll)))
