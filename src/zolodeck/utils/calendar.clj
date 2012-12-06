@@ -10,7 +10,7 @@
            java.util.Date
            java.text.SimpleDateFormat
            org.joda.time.format.DateTimeFormatterBuilder
-           [org.joda.time LocalDate Weeks])
+           [org.joda.time LocalDate Weeks Hours Minutes])
   (:require [clj-time.core :as time]))
 
 (Locale/setDefault Locale/US)
@@ -134,6 +134,12 @@
 
 (defn weeks-between [dt1 dt2]
   (.getWeeks (Weeks/weeksBetween (to-date-time dt1) (to-date-time dt2))))
+
+(defn hours-between [dt1 dt2]
+  (.getHours (Hours/hoursBetween (to-date-time dt1) (to-date-time dt2))))
+
+(defn minutes-between [dt1 dt2]
+  (.getMinutes (Minutes/minutesBetween (to-date-time dt1) (to-date-time dt2))))
 
 (defn start-of-day-inst [inst]
   (->> inst
