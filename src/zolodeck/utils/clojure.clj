@@ -137,6 +137,14 @@
 (defn conj-at-end [x coll]
   (concat coll [x]))
 
+(defn blank? [x]
+  (cond
+   (sequential? x) (empty? x)
+   :else (nil? x)))
+
+(defn squeeze [coll]
+  (remove blank? coll))
+
 (defn doeach [function coll]
   (doseq [c coll]
     (function c)))
