@@ -155,7 +155,7 @@
       .toDateTimeAtStartOfDay))
 
 (defn today-dt []
-  (.toDateTimeAtStartOfDay (LocalDate.)))
+  (.toDateTimeAtStartOfDay (LocalDate. (now) time/utc)))
 
 (defn- inc-date [dt]
   (.plusDays dt 1))
