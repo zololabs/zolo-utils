@@ -31,17 +31,19 @@
 
 (defn parse-query-string
   "Parse parameters from a string into a map."
-  [^String param-string encoding]
-  (let [stringified (reduce
-                     (fn [param-map encoded-param]
-                       (if-let [[_ key val] (re-matches #"([^=]+)=(.*)" encoded-param)]
-                         (assoc-param param-map
-                                      (codec/url-decode key encoding)
-                                      (codec/url-decode (or val "") encoding))
-                         param-map))
-                     {}
-                     (clj-string/split param-string #"&"))]
-    (walk/keywordize-keys stringified)))
+  ([^String param-string encoding]
+     (let [stringified (reduce
+                         (fn [param-map encoded-param]
+                           (if-let [[_ key val] (re-matches #"([^=]+)=(.*)" encoded-param)]
+                             (assoc-param param-map
+                                          (codec/url-decode key encoding)
+                                          (codec/url-decode (or val "") encoding))
+                             param-map))
+                         {}
+                         (clj-string/split param-string #"&"))]
+       (walk/keywordize-keys stringified)))
+  ([^String param-string]
+     (parse-query-string param-string "UTF-8")))
 
 (defn to-string [e]
   (if (keyword? e)
