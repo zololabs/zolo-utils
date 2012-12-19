@@ -180,10 +180,12 @@
 (defn dec-date-stream [start-dt]
   (date-stream (start-of-day-dt start-dt) dec-date))
 
-(defn same-day-instance [i1 i2]
-  (and (= (year-from-instant i1) (year-from-instant i2))
-       (= (month-from-instant i1) (month-from-instant i2))
-       (= (date-from-instant i1) (date-from-instant i2))))
+(defn same-day-instance? [i1 i2]
+  (if (and i1 i2)
+    (and (= (year-from-instant i1) (year-from-instant i2))
+         (= (month-from-instant i1) (month-from-instant i2))
+         (= (date-from-instant i1) (date-from-instant i2)))
+    false))
 
 (defn all-dates-between [start-inst end-inst]
   (let [end-start-of-day (start-of-day-inst end-inst)]
