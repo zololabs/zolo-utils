@@ -10,7 +10,7 @@
            java.util.Date
            java.text.SimpleDateFormat
            org.joda.time.format.DateTimeFormatterBuilder
-           [org.joda.time LocalDate Weeks Hours Minutes])
+           [org.joda.time LocalDate Weeks Hours Minutes Days])
   (:require [clj-time.core :as time]))
 
 (Locale/setDefault Locale/US)
@@ -117,6 +117,9 @@
 (defn month-from-instant [instant]
   (.getMonthOfYear (to-date-time instant)))
 
+(defn date-from-instant [instant]
+  (.getDayOfMonth (to-date-time instant)))
+
 (defn week-from-instant [instant]
   (.getWeekOfWeekyear (to-date-time instant)))
 
@@ -134,6 +137,9 @@
 
 (defn weeks-between [dt1 dt2]
   (.getWeeks (Weeks/weeksBetween (to-date-time dt1) (to-date-time dt2))))
+
+(defn days-between [dt1 dt2]
+  (.getDays (Days/daysBetween (to-date-time dt1) (to-date-time dt2))))
 
 (defn hours-between [dt1 dt2]
   (.getHours (Hours/hoursBetween (to-date-time dt1) (to-date-time dt2))))
@@ -173,6 +179,11 @@
 
 (defn dec-date-stream [start-dt]
   (date-stream (start-of-day-dt start-dt) dec-date))
+
+(defn same-day-instance [i1 i2]
+  (and (= (year-from-instant i1) (year-from-instant i2))
+       (= (month-from-instant i1) (month-from-instant i2))
+       (= (date-from-instant i1) (date-from-instant i2))))
 
 (defn all-dates-between [start-inst end-inst]
   (let [end-start-of-day (start-of-day-inst end-inst)]
