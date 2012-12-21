@@ -2,7 +2,7 @@
   (:use zolodeck.utils.debug
         zolodeck.utils.clojure
         [clj-time.format :only (parse unparse formatters formatter)]
-        [clj-time.core :only (time-zone-for-offset date-time year month day)]
+        [clj-time.core :only (time-zone-for-offset to-time-zone date-time year month day)]
         [clj-time.coerce :only (to-date-time)])
   (:import com.joestelmach.natty.Parser
            java.util.TimeZone
