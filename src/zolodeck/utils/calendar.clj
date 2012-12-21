@@ -2,7 +2,7 @@
   (:use zolodeck.utils.debug
         zolodeck.utils.clojure
         [clj-time.format :only (parse unparse formatters formatter)]
-        [clj-time.core :only (date-time year month day)]
+        [clj-time.core :only (time-zone-for-offset date-time year month day)]
         [clj-time.coerce :only (to-date-time)])
   (:import com.joestelmach.natty.Parser
            java.util.TimeZone
@@ -21,6 +21,18 @@
 (defn date-string->instant [format date-string]
   (when date-string
     (.toDate (parse (or (formatters format) (formatter format)) date-string))))
+
+(defn time-zone-from-offset [offset-minutes]
+  (let [neg-offset (- 0 offset-minutes)]
+    (time-zone-for-offset (/ neg-offset 60) (mod neg-offset 60))))
+
+(defn date-string->dt
+  ([format date-string tz-offset-minutes]
+     (when date-string
+       (to-time-zone (parse (or (formatters format) (formatter format)) date-string)
+                     (time-zone-from-offset tz-offset-minutes))))
+  ([format date-string]
+     (date-string->instant format date-string 0)))
 
 (defn millis->instant [millis]
   (java.sql.Timestamp. millis))
@@ -47,8 +59,13 @@
 (defn now-instant []
   (millis->instant (now)))
 
-(defn now-joda []
-  (to-date-time (now)))
+(defn now-joda
+  ([tz-offset-minutes]
+     (-> (now)
+         to-date-time
+         (to-time-zone (time-zone-from-offset tz-offset-minutes))))
+  ([]
+     (now-joda 0)))
 
 (defn to-seconds [string-or-millis]
   (condp = (class string-or-millis)
