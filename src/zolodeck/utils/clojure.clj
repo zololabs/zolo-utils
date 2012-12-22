@@ -76,7 +76,9 @@
   (rand-int 1e8))
 
 (defn parse-int [s]
-  (Integer/parseInt s))
+  (if (number? s)
+    s
+    (Integer/parseInt s)))
 
 (defn diff [old-seq new-seq id-fn]
   (let [old-ids (set (map id-fn old-seq))
