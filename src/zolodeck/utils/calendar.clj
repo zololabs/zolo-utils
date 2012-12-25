@@ -34,6 +34,9 @@
   ([format date-string]
      (date-string->instant format date-string 0)))
 
+(defn in-time-zone [dt offset-minutes]
+  (to-time-zone (to-date-time dt) (time-zone-from-offset offset-minutes)))
+
 (defn millis->instant [millis]
   (java.sql.Timestamp. millis))
 
