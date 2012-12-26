@@ -74,11 +74,12 @@
   ([]
      (now-joda 0)))
 
-(defn to-seconds [string-or-millis]
-  (condp = (class string-or-millis)
-    java.lang.Long (int (/ string-or-millis 1000))
-    java.lang.String (/ (.getTime (date-string->instant "yyyy-MM-dd" string-or-millis)) 1000)
-    :else (throw (RuntimeException. (str string-or-millis " is not either a String or a Long")))))
+(defn to-seconds [date-thing]
+  (condp = (class date-thing)
+    java.lang.Long (int (/ date-thing 1000))
+    java.lang.String (int (/ (.getTime (date-string->instant "yyyy-MM-dd" date-thing)) 1000))
+    java.util.Date (int (/ (.getTime date-thing) 1000))
+    :else (throw (RuntimeException. (str date-thing " is not either a yyyy-MM-dd string or a Long or a Date")))))
 
 (defn fuzzy-parse [date-string]
   (let [groups (.parse (Parser.) date-string)]
