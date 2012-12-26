@@ -83,11 +83,12 @@
     :else (throw (RuntimeException. (str date-thing " is not either a yyyy-MM-dd string or a Long or a Date")))))
 
 (defn minus [dt n unit]
-  (let [d (condp = unit
-            :week (time/weeks n)
-            :days (time/days n)
-            :months (time/months n)
-            :years (time/years n))]
+  (let [d (cond 
+            (or (= :weeks unit)  (= :week unit)) (time/weeks n)
+            (or (= :days  unit)  (= :day unit)) (time/days n)
+            (or (= :months unit) (= :month unit)) (time/months n)
+            (or (= :years unit)  (= :year unit)) (time/years n)
+            :else (throw (RuntimeException. (str "Unknown unit specified: " unit))))]
     (time/minus dt d)))
 
 (defn fuzzy-parse [date-string]
