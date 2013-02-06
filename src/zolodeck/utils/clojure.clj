@@ -72,6 +72,11 @@
 (defn random-guid []
   (java.util.UUID/randomUUID))
 
+(defn random-guid-str []
+  (str (random-guid)))
+
+(def random-str random-guid-str)
+
 (defn random-integer []
   (rand-int 1e8))
 
