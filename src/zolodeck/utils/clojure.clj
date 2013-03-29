@@ -25,6 +25,11 @@
   `(if-let [ff# ~first-form]
      (-> ff# ~@rest-forms)))
 
+(defmacro -not-nil!-> [first-form & rest-forms]
+  `(if-let [ff# ~first-form]
+     (-> ff# ~@rest-forms)
+     (throw (IllegalArgumentException. "Nil is passed"))))
+
 (defn name-with-attributes
   "To be used in macro definitions.
    Handles optional docstrings and attribute maps for a name to be defined
