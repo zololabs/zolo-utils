@@ -25,9 +25,18 @@
   `(if-let [ff# ~first-form]
      (-> ff# ~@rest-forms)))
 
+(defmacro -not-nil->> [first-form & rest-forms]
+  `(if-let [ff# ~first-form]
+     (->> ff# ~@rest-forms)))
+
 (defmacro -not-nil!-> [first-form & rest-forms]
   `(if-let [ff# ~first-form]
      (-> ff# ~@rest-forms)
+     (throw (IllegalArgumentException. "Nil is passed"))))
+
+(defmacro -not-nil!->> [first-form & rest-forms]
+  `(if-let [ff# ~first-form]
+     (->> ff# ~@rest-forms)
      (throw (IllegalArgumentException. "Nil is passed"))))
 
 (defn name-with-attributes
