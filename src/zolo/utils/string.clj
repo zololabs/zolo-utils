@@ -49,3 +49,9 @@
   (if (keyword? e)
     (name e)
     (str e)))
+
+(defn up-key-name [kw]
+  (.toUpperCase (name kw)))
+
+(defn capitalize [s]
+  (apply str (Character/toUpperCase (first (name s))) (rest (name s))))

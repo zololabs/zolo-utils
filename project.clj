@@ -25,14 +25,13 @@
 
   :plugins [[lein-swank "1.4.4"]
             [lein-pprint "1.1.1"]
-            [lein-notes "0.0.1"]]
-
-  :hooks [leiningen.hooks.difftest]
+            [lein-notes "0.0.1"]
+            [lein-clojars "0.9.1"]]
 
   :dev-dependencies [[clj-stacktrace "0.2.4"]
                      [swank-clojure "1.3.3"]]
   
-  :min-lein-version "1.7.0"
+  :min-lein-version "2.0.0"
 
   :test-selectors {:default (fn [t] (not (:integration t)))
                    :integration :integration

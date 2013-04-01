@@ -21,6 +21,24 @@
     `(if-let [~'it ~first-expr]
        (it-> ~@rest-expr))))
 
+(defmacro -not-nil-> [first-form & rest-forms]
+  `(if-let [ff# ~first-form]
+     (-> ff# ~@rest-forms)))
+
+(defmacro -not-nil->> [first-form & rest-forms]
+  `(if-let [ff# ~first-form]
+     (->> ff# ~@rest-forms)))
+
+(defmacro -not-nil!-> [first-form & rest-forms]
+  `(if-let [ff# ~first-form]
+     (-> ff# ~@rest-forms)
+     (throw (IllegalArgumentException. "Nil is passed"))))
+
+(defmacro -not-nil!->> [first-form & rest-forms]
+  `(if-let [ff# ~first-form]
+     (->> ff# ~@rest-forms)
+     (throw (IllegalArgumentException. "Nil is passed"))))
+
 (defn name-with-attributes
   "To be used in macro definitions.
    Handles optional docstrings and attribute maps for a name to be defined
@@ -71,6 +89,11 @@
 
 (defn random-guid []
   (java.util.UUID/randomUUID))
+
+(defn random-guid-str []
+  (str (random-guid)))
+
+(def random-str random-guid-str)
 
 (defn random-integer []
   (rand-int 1e8))

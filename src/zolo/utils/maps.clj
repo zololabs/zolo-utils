@@ -62,3 +62,8 @@
        (partition-all n)
        (map #(apply concat %))
        (map #(apply hash-map %))))
+
+(defn update-in-when [m ks pred f-or-v]
+  (let [s (get-in m ks)
+        u (map #(if (pred %) (if (fn? f-or-v) (f-or-v %) f-or-v) %) s)]
+    (assoc-in m ks u)))
