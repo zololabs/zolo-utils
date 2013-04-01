@@ -27,6 +27,11 @@
       {new-key v}
       {k v})))
 
+(defn to-underscore-keys [m]
+  (let [f (fn [[k v]] (if (keyword? k) [(clojure.string/replace (name k) "-" "_") v] [k v]))]
+    ;; only apply to maps
+    (walk/postwalk (fn [x] (if (map? x) (into {} (map f x)) x)) m)))
+
 ;;TODO need to add tests
 
 (defn update-map-keys [m key-tester key-updater]
