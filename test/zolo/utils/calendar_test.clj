@@ -1,5 +1,5 @@
-(ns zolodeck.utils.calendar-test
-  (:use zolodeck.utils.calendar
+(ns zolo.utils.calendar-test
+  (:use zolo.utils.calendar
         [clj-time.format :only (parse unparse formatters formatter)]
         [clj-time.coerce :only (to-date-time)]
         [clojure.test :only [run-tests deftest is are testing]]))

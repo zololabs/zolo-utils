@@ -1,5 +1,5 @@
-(ns zolodeck.utils.string-test
-  (:use zolodeck.utils.string
+(ns zolo.utils.string-test
+  (:use zolo.utils.string
         [clojure.test :only [run-tests deftest is are testing]]))
 
 (deftest test-to-string

@@ -1,6 +1,6 @@
-(ns zolodeck.utils.calendar
-  (:use zolodeck.utils.debug
-        zolodeck.utils.clojure
+(ns zolo.utils.calendar
+  (:use zolo.utils.debug
+        zolo.utils.clojure
         [clj-time.format :only (parse unparse formatters formatter)]
         [clj-time.core :only (time-zone-for-offset to-time-zone date-time year month day)]
         [clj-time.coerce :only (to-date-time to-date)])

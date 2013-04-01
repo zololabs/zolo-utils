@@ -1,4 +1,4 @@
-(ns zolodeck.utils.math)
+(ns zolo.utils.math)
 
 (defn average [numbers]
   (if-not (empty? numbers)

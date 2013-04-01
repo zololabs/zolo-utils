@@ -1,4 +1,4 @@
-(ns zolodeck.utils.string
+(ns zolo.utils.string
   (:require [ring.util.codec :as codec]
             [clojure.string :as clj-string]
             [clojure.walk :as walk])

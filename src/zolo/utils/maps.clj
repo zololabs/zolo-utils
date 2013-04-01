@@ -1,5 +1,5 @@
-(ns zolodeck.utils.maps
-  (:use zolodeck.utils.debug)
+(ns zolo.utils.maps
+  (:use zolo.utils.debug)
   (:require [clojure.walk :as walk]))
 
 (defn transform-vals-with [a-map transform-fn]

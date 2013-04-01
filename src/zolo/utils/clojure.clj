@@ -1,5 +1,5 @@
-(ns zolodeck.utils.clojure
-  (:use zolodeck.utils.debug
+(ns zolo.utils.clojure
+  (:use zolo.utils.debug
         clojure.set)
   (:import java.io.File))
 

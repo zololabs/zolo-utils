@@ -1,4 +1,4 @@
-(ns zolodeck.utils.debug
+(ns zolo.utils.debug
   (:use clojure.pprint))
 
 (defn- snip-string [s]
