@@ -5,6 +5,9 @@
 (defn transform-vals-with [a-map transform-fn]
   (apply merge (map (fn [[k v]] {k (transform-fn k v)}) a-map)))
 
+(defn transform-keys-with [a-map key-transform]  
+  (apply hash-map (mapcat (fn [[k v]] [(key-transform k) v]) a-map)))
+
 (defn transform-key-vals-with [a-map key-transform val-transform]  
   (apply hash-map (mapcat (fn [[k v]] [(key-transform k) (val-transform v)]) a-map)))
 
