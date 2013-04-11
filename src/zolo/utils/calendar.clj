@@ -18,9 +18,12 @@
 
 (def yyyy-MM-dd-HH-mm "yyyy-MM-dd HH:mm")
 
-(defn date-string->instant [format date-string]
-  (when date-string
-    (.toDate (parse (or (formatters format) (formatter format)) date-string))))
+(defn date-string->instant
+  ([yyyy-MM-dd-HH-mm-string]
+     (date-string->instant yyyy-MM-dd-HH-mm yyyy-MM-dd-HH-mm-string))
+  ([format date-string]
+     (when date-string
+       (.toDate (parse (or (formatters format) (formatter format)) date-string)))))
 
 (defn time-zone-from-offset [offset-minutes]
   (let [neg-offset (- 0 offset-minutes)]
