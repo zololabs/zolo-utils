@@ -82,6 +82,7 @@
     java.lang.Long (int (/ date-thing 1000))
     java.lang.String (int (/ (.getTime (date-string->instant "yyyy-MM-dd" date-thing)) 1000))
     java.util.Date (int (/ (.getTime date-thing) 1000))
+    java.sql.Timestamp (int (/ (.getTime date-thing) 1000))    
     org.joda.time.DateTime (int (/ (.getTime (to-date date-thing)) 1000))
     :else (throw (RuntimeException. (str date-thing " is not either a yyyy-MM-dd string or a Long or a Date")))))
 
