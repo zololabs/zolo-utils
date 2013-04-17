@@ -55,3 +55,8 @@
 
 (defn capitalize [s]
   (apply str (Character/toUpperCase (first (name s))) (rest (name s))))
+
+(defn decode-base64 [string]
+  (-> string
+      javax.xml.bind.DatatypeConverter/parseBase64Binary
+      (String.)))
