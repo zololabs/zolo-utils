@@ -87,6 +87,9 @@
 (defn select-randomly [& things]
   (nth things (rand-int (count things))))
 
+(defn take-randomely [n things]
+  (map #(rand-nth %) (repeat (min (count things) n) things)))
+
 (defn random-guid []
   (java.util.UUID/randomUUID))
 
