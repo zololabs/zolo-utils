@@ -90,6 +90,14 @@
 (defn take-randomely [n things]
   (map #(rand-nth %) (repeat (min (count things) n) things)))
 
+(defn take-unique-randomely [n things]
+  (let [unique-things (set things)
+        c (min n (count unique-things))]
+    (reduce (fn [acc things]
+              (conj acc (rand-nth (remove acc things))))
+            #{}
+            (repeat c unique-things))))
+
 (defn random-guid []
   (java.util.UUID/randomUUID))
 
