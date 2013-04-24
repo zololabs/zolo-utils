@@ -86,14 +86,21 @@
     org.joda.time.DateTime (int (/ (.getTime (to-date date-thing)) 1000))
     :else (throw (RuntimeException. (str date-thing " is not either a yyyy-MM-dd string or a Long or a Date")))))
 
+(defn- time-unit [n unit]
+  (cond 
+   (or (= :weeks unit)  (= :week unit)) (time/weeks n)
+   (or (= :days  unit)  (= :day unit)) (time/days n)
+   (or (= :months unit) (= :month unit)) (time/months n)
+   (or (= :years unit)  (= :year unit)) (time/years n)
+   (or (= :minutes unit)  (= :minute unit)) (time/minutes n)
+   (or (= :hours unit)    (= :hour unit)) (time/hours n)
+   :else (throw (RuntimeException. (str "Unknown unit specified: " unit)))))
+
 (defn minus [dt n unit]
-  (let [d (cond 
-            (or (= :weeks unit)  (= :week unit)) (time/weeks n)
-            (or (= :days  unit)  (= :day unit)) (time/days n)
-            (or (= :months unit) (= :month unit)) (time/months n)
-            (or (= :years unit)  (= :year unit)) (time/years n)
-            :else (throw (RuntimeException. (str "Unknown unit specified: " unit))))]
-    (time/minus dt d)))
+  (time/minus (to-date-time dt) (time-unit n unit)))
+
+(defn plus [dt n unit]
+  (time/plus (to-date-time dt) (time-unit n unit)))
 
 (defn fuzzy-parse [date-string]
   (let [groups (.parse (Parser.) date-string)]
@@ -202,13 +209,13 @@
 (defn today-dt []
   (.toDateTimeAtStartOfDay (LocalDate. (now) time/utc)))
 
-(defn- inc-date [dt]
+(defn inc-date [dt]
   (.plusDays dt 1))
 
-(defn- dec-date [dt]
+(defn dec-date [dt]
   (.minusDays dt 1))
 
-(defn- date-stream [start-dt next-fn]
+(defn date-stream [start-dt next-fn]
   (->> start-dt
        (iterate next-fn)
        (map #(.toDate %))))
