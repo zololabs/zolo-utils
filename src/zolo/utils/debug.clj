@@ -14,6 +14,10 @@
   (apply println (cons "*** " (map #(if (string? %) % (with-out-str (pprint %)))  args)))
   (last args))
 
+(defn print-but-last [& args]
+  (apply println (cons "*** " (map #(if (string? %) % (with-out-str (pprint %))) (butlast args))))
+  (last args))
+
 (defn print-vals-> [obj msg]
   (print-vals msg obj)
   obj)

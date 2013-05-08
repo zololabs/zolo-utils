@@ -66,3 +66,8 @@
   (-> string
       javax.xml.bind.DatatypeConverter/parseBase64Binary
       (String.)))
+
+(defn snippet [text length]
+  (if (<= (count text) length)
+    text
+    (str (subs text 0 length) "...")))
