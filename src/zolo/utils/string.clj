@@ -45,6 +45,12 @@
   ([^String param-string]
      (parse-query-string param-string "UTF-8")))
 
+(defn make-query-string [m]
+  (->> (for [[k v] m]
+         (str (name k) "=" (codec/url-encode v)))
+       (interpose "&")
+       (apply str)))
+
 (defn to-string [e]
   (if (keyword? e)
     (name e)
