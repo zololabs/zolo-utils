@@ -86,6 +86,9 @@
     org.joda.time.DateTime (int (/ (.getTime (to-date date-thing)) 1000))
     :else (throw (RuntimeException. (str date-thing " is not either a yyyy-MM-dd string or a Long or a Date")))))
 
+(defn to-inst [dt]
+  (to-date dt))
+
 (defn- time-unit [n unit]
   (cond 
    (or (= :weeks unit)  (= :week unit)) (time/weeks n)
