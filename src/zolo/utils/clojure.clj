@@ -178,6 +178,11 @@
    (sequential? x) (empty? x)
    :else (nil? x)))
 
+(defn to-uuid [s]
+  (if (uuid? s)
+    s
+    (java.util.UUID/fromString s)))
+
 (defn squeeze [coll]
   (remove blank? coll))
 
