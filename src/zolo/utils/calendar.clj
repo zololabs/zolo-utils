@@ -18,12 +18,20 @@
 
 (def yyyy-MM-dd-HH-mm "yyyy-MM-dd HH:mm")
 
+(def ISO-DATE-FORMAT "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+
 (defn date-string->instant
   ([yyyy-MM-dd-HH-mm-string]
      (date-string->instant yyyy-MM-dd-HH-mm yyyy-MM-dd-HH-mm-string))
   ([format date-string]
      (when date-string
        (.toDate (parse (or (formatters format) (formatter format)) date-string)))))
+
+(defn iso-string->inst [iso-string]
+  (if iso-string
+    (-> ISO-DATE-FORMAT
+        SimpleDateFormat.
+        (.parse iso-string))))
 
 (defn time-zone-from-offset [offset-minutes]
   (let [neg-offset (- 0 offset-minutes)]
@@ -88,12 +96,6 @@
 
 (defn to-inst [dt]
   (to-date dt))
-
-(defn iso-string->inst [iso-string]
-  (if iso-string
-    (-> "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
-        (java.text.SimpleDateFormat.)
-        (.parse iso-string))))
 
 (defn- time-unit [n unit]
   (cond 
@@ -165,6 +167,14 @@
 (defn date-to-simple-string [d]
   (if d
     (date-to-string d (simple-date-format "yyyy-MM-dd"))))
+
+(defn inst->iso-string [inst]
+  (-> ISO-DATE-FORMAT
+      SimpleDateFormat.
+      (.format inst)))
+
+(defn dt->iso-string [dt]
+  (-> dt to-date inst->iso-string))
 
 (defn year-from-instant [instant]
   (.getYear (to-date-time instant)))
