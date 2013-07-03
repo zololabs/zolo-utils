@@ -89,6 +89,11 @@
 (defn to-inst [dt]
   (to-date dt))
 
+(defn iso-string->inst [iso-string]
+  (-> "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+      (java.text.SimpleDateFormat.)
+      (.parse iso-string)))
+
 (defn- time-unit [n unit]
   (cond 
    (or (= :weeks unit)  (= :week unit)) (time/weeks n)
