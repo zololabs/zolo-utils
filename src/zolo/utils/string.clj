@@ -74,3 +74,9 @@
   (if (<= (count text) length)
     text
     (str (subs text 0 length) "...")))
+
+(defn chop [s]
+  (.substring s 0 (dec (count s))))
+
+(defn chomp [s]
+  (.substring s 1 (count s)))
