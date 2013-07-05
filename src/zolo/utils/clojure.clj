@@ -230,3 +230,10 @@
      (pdoeach f n false coll))
   ([f coll]
      (pdoeach f 1 coll)))
+
+(defn paginate [limit offset data-seq]  
+  (->> data-seq
+       (drop (or offset 0))
+       (take (or limit 50))))
+
+(def apply-pagination paginate)
