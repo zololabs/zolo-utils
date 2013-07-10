@@ -188,6 +188,10 @@
 (defn week-from-instant [instant]
   (.getWeekOfWeekyear (to-date-time instant)))
 
+(defn get-year-month-date [instant]
+  (let [dt (to-date-time instant)]
+    [(.getYear dt) (.getMonthOfYear dt) (.getDayOfMonth dt)]))
+
 (defn get-year-month-week [instant]
   (let [dt (to-date-time instant)]
     [(.getYear dt) (.getMonthOfYear dt) (.getWeekOfWeekyear dt)]))
@@ -262,3 +266,6 @@
 
 (defn all-dates-through-today [start-inst]
   (all-dates-between start-inst (today-dt)))
+
+(defn to-midnight-utc [inst]
+  (->> inst get-year-month-date (apply clj-time.core/date-time) to-inst))
