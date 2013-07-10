@@ -13,7 +13,12 @@
                  [clj-time "0.4.4"]
                  [com.joestelmach/natty "0.6-SNAPSHOT"]
                  
-                 [slingshot "0.10.2"]]
+                 [slingshot "0.10.2"]
+
+                 [org.clojure/tools.logging "0.2.4"]
+                 [org.slf4j/slf4j-api "1.7.0"]
+                 [clj-logging-config "1.9.10" :exclusions [log4j]]
+]
 
   :exclusions [org.clojure/clojure
                org.slf4j/slf4j-log4j12
