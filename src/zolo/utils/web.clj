@@ -52,15 +52,19 @@
        (logger/error e "Exception Occured :")
        (json-response {:error (.getMessage e)} 500)))))
 
-(defn wrap-request-logging [dont-log-req-check-fn logging-context-req-fn handler]
-  (fn [request]
-    (if (dont-log-req-check-fn request)
-      (logger/with-logging-context (logging-context-req-fn request)
-        (logger/debug "REQUEST : " request)
-        (let [response (handler request)]
-          (logger/debug "RESPONSE : " (assoc response :body "FILTERED"))
-          response))
-      (handler request))))
+(defn wrap-request-logging
+  ([dont-log-req-check-fn logging-context-req-fn handler]
+     (fn [request]
+       (if (dont-log-req-check-fn request)
+         (logger/with-logging-context (logging-context-req-fn request)
+           (logger/debug "REQUEST : " request)
+           (let [response (handler request)]
+             (logger/debug "RESPONSE : " (assoc response :body "FILTERED"))
+             response))
+         (handler request))))
+  ([handler]
+     (wrap-request-logging (constantly true) (constantly {}) handler)))
+
 
 (defn wrap-request-binding [handler]
   (fn [request]
