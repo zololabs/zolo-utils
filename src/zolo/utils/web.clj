@@ -53,18 +53,17 @@
        (json-response {:error (.getMessage e)} 500)))))
 
 (defn wrap-request-logging
-  ([dont-log-req-check-fn logging-context-req-fn handler]
+  ([dont-log-req-check-fn logging-context-req-fn request-pre-logging-fn response-pre-logging-fn handler]
      (fn [request]
        (if (dont-log-req-check-fn request)
          (logger/with-logging-context (logging-context-req-fn request)
-           (logger/debug "REQUEST : " request)
+           (logger/debug "REQUEST : " (request-pre-logging-fn request))
            (let [response (handler request)]
-             (logger/debug "RESPONSE : " (assoc response :body "FILTERED"))
+             (logger/debug "RESPONSE : " (response-pre-logging-fn response))
              response))
          (handler request))))
   ([handler]
-     (wrap-request-logging (constantly true) (constantly {}) handler)))
-
+     (wrap-request-logging (constantly true) (constantly {}) identity identity handler)))
 
 (defn wrap-request-binding [handler]
   (fn [request]
