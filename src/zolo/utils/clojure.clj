@@ -242,4 +242,6 @@
 (defmacro unless-log [binding-vector msg & body]
   `(if-let ~binding-vector
      (do ~@body)
-     (logger/info ~msg)))
+     (do
+       (logger/info ~msg)
+       nil)))
