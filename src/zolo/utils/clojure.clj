@@ -1,6 +1,7 @@
 (ns zolo.utils.clojure
   (:use zolo.utils.debug
         clojure.set)
+  (:require [zolo.utils.logger :as logger])
   (:import java.io.File))
 
 (defn create-runonce [function] 
@@ -237,3 +238,8 @@
        (take (or limit 50))))
 
 (def apply-pagination paginate)
+
+(defmacro unless-log [binding-vector msg & body]
+  `(if-let ~binding-vector
+     (do ~@body)
+     (logger/info ~msg)))
