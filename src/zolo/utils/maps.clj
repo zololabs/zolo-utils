@@ -90,3 +90,6 @@
         (apply merge-with m maps)
         (apply f maps)))
     maps))
+
+(defn collect-vals [m & key-fns]
+  (map #(m %) key-fns))
