@@ -1,4 +1,4 @@
-(ns zolo.utils.metrics-ring.instrument
+(ns zolo.metrics-ring.instrument
   (:use [metrics.counters :only (counter inc! dec!)]
         [metrics.meters :only (meter mark!)]
         [metrics.timers :only (timer time!)]))
