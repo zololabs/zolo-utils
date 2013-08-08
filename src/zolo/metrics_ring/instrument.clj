@@ -25,12 +25,14 @@
          times {:get     (timer ["ring" "handling-time" "GET"])
                 :put     (timer ["ring" "handling-time" "PUT"])
                 :post    (timer ["ring" "handling-time" "POST"])
+                :patch   (timer ["ring" "handling-time" "PATCH"])                
                 :head    (timer ["ring" "handling-time" "HEAD"])
                 :delete  (timer ["ring" "handling-time" "DELETE"])
                 :options (timer ["ring" "handling-time" "OPTIONS"])}
          request-methods {:get     (meter ["ring" "requests" "rate.GET"] "requests")
                           :put     (meter ["ring" "requests" "rate.PUT"] "requests")
                           :post    (meter ["ring" "requests" "rate.POST"] "requests")
+                          :patch   (meter ["ring" "requests" "rate.PATCH"] "requests")
                           :head    (meter ["ring" "requests" "rate.HEAD"] "requests")
                           :delete  (meter ["ring" "requests" "rate.DELETE"] "requests")
                           :options (meter ["ring" "requests" "rate.OPTIONS"] "requests")}]
