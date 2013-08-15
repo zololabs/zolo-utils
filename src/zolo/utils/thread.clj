@@ -15,14 +15,14 @@
     (newThread [thunk]
       (Thread. thunk (random-thread-name thread-name-prefix)))))
 
-(defn- scheduled-thread-pool-executor [pool-size thread-name-prefix]
+(defn- scheduled-executor [pool-size thread-name-prefix]
   (->> thread-name-prefix
        thread-factory
        (ScheduledThreadPoolExecutor. pool-size)))
 
 (defn- init-scheduled-executor []
   (if (nil? @SCHEDULED-EXECUTOR)
-    (reset! SCHEDULED-EXECUTOR (scheduled-thread-pool-executor CPU-COUNT "ZOLO-UTILS-SCHEDULER"))))
+    (reset! SCHEDULED-EXECUTOR (scheduled-executor CPU-COUNT "ZOLO-UTILS-SCHEDULER"))))
 
 (defn protected [thunk descriptor]
   #(try
