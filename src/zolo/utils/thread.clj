@@ -1,5 +1,6 @@
 (ns zolo.utils.thread
   (:use zolo.utils.clojure)
+  (:require [zolo.utils.logger :as logger])
   (:import [java.util.concurrent ThreadFactory ScheduledThreadPoolExecutor TimeUnit]))
 
 (def CPU-COUNT (.availableProcessors (Runtime/getRuntime)))
@@ -23,6 +24,13 @@
        thread-factory
        (ScheduledThreadPoolExecutor. pool-size)))
 
-(defn run-thunk-periodically [thunk time-period-millis]
+(defn protected [thunk descriptor]
+  (try
+    (thunk)
+    (catch Exception e
+      (logger/error e (str "Error periodically executing " descriptor)))))
+
+(defn run-thunk-periodically [descriptor thunk time-period-millis]
   (init-scheduled-executor)
-  (.scheduleAtFixedRate @SCHEDULED-EXECUTOR thunk time-period-millis time-period-millis TimeUnit/MILLISECONDS))
+  (.scheduleAtFixedRate @SCHEDULED-EXECUTOR (protected thunk descriptor) time-period-millis time-period-millis TimeUnit/MILLISECONDS))
+
