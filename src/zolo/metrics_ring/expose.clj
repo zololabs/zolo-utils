@@ -75,9 +75,12 @@
   [metric-name (render-to-basic metric)])
 
 
+(defn all-metrics-clj []
+  (into {} (map render-metric (all-metrics))))
+
 ; Exposing --------------------------------------------------------------------
 (defn- metrics-json [request]
-  (let [metrics-map (into {} (map render-metric (all-metrics)))
+  (let [metrics-map (all-metrics-clj)
         json (generate-string metrics-map)]
     (-> (response json)
       (header "Content-Type" "application/json"))))
