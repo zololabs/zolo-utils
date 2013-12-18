@@ -67,7 +67,7 @@
 (defn seconds-string->instant [seconds-string]
   (seconds->instant (Long/parseLong seconds-string)))
 
-(def BEGINNING-OF-TIME (date-time 1971 1 1))
+(def BEGINNING-OF-TIME (date-time 1970 1 1))
 
 (def BEGINNING-OF-TIME-MILLIS (.getMillis BEGINNING-OF-TIME))
 
